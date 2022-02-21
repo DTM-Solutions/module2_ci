@@ -1,6 +1,6 @@
 pipeline{
     agent any
-    tools { maven 'maven'}
+    tools { mave 'maven'}
     stages{
         stage('check version') {
             steps{
@@ -9,7 +9,7 @@ pipeline{
                 sh 'java -version'
             }
         }
-	stage('git-clone'){
+		stage('git-clone'){
 			steps{
            checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/DTM-Solutions/Etech-lab.git']]])
 			}
@@ -20,5 +20,15 @@ pipeline{
                 archive 'target/*.jar'   
             }
         }
+        stage('Unit Tests - JUnit and JaCoCo') {
+            steps {
+                 sh "mvn test"
+                }
+            post {
+                always {
+                junit 'target/surefire-reports/*.xml'
+                jacoco execPattern: 'target/jacoco.exec'
+            }
+      }
     }
 }
