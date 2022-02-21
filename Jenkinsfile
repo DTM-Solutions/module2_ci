@@ -1,6 +1,6 @@
 pipeline{
     agent any
-    tools { mave 'maven'}
+    tools { maven 'maven'}
     stages{
         stage('check version') {
             steps{
