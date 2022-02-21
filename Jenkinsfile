@@ -40,6 +40,14 @@ pipeline{
                 pitmutation mutationStatsFile: '**/target/pit-reports/**/mutations.xml'
         }
       }
-    } 
+    }
+    stage('Code-Quality'){
+        steps{
+            sh "mvn clean verify sonar:sonar \
+                 -Dsonar.projectKey=DevOps-project \
+                 -Dsonar.host.url=http://jenkinspipeline-demo.eastus.cloudapp.azure.com:9000 \
+                 -Dsonar.login=6aa2cc7c3107b9b8a317e19fda07cbfd056e4db5"
+        }
+    }
     }
 }
